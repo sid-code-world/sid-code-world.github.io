@@ -1,0 +1,66 @@
+
+.square {
+  width: 200px;
+  height: 200px;
+  border-style: solid;
+  border-color: rgb(164, 252, 186);
+}
+
+
+.grid {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-content: center;
+  width: 618px;
+  height: 618px;
+}
+
+
+.mole {
+  background-image: url('duck .png');
+  background-size: cover;
+}
+
+.grid {
+  background-color: #1bcbf2;
+  margin-left: 300px;
+  margin-top: 1px;
+}
+
+h1 {
+  margin-left: 500px;
+  color: white;
+}
+
+body {
+  background: #27bd09;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-container, .time-container {
+  font-size: 24px;
+  color: white;
+  margin-left: 30px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+
+.score-container p, .time-container p {
+  margin-left: 20px;
+}
+
+#rock {
+  margin-left: 300px;
+}
+#rock2 {
+  margin-left: 800px;
+}

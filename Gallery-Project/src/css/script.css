@@ -1,0 +1,67 @@
+#Image1 {
+  width: 200px;
+}
+
+#Image2 {
+  width: 200px;
+}
+
+#Image3 {
+  width: 200px;
+}
+
+#Image4 {
+  width: 200px;
+}
+
+.column {
+  float: left;
+  width: 20%;
+  padding: 5px;
+  padding-left: 50px;
+}
+
+.column img {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.column img:hover {
+    opacity: 3;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.container {
+  position: relative;
+  display: none;
+}
+
+
+
+#imgtext {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  color: white;
+  font-size: 20px;
+}
+
+
+.closebtn {
+  position: absolute;
+  top: 10px;
+  right: 12%;
+  color: black;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+#expandedImg {
+  margin: auto;
+  display: block;
+}

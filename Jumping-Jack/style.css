@@ -1,0 +1,33 @@
+.lilyPadStart, .JackTheFrog {
+  position: fixed;
+  bottom: 20px;
+  left: calc(50% - 75px);
+}
+
+body {
+  height: 100vh;
+}
+
+.lilyPadEnd {
+  position: fixed;
+  top: 75px;
+  left: calc(50% - 75px);
+}
+
+body {
+  background-image: url('../Jumping-Jack/images/Pond.jpeg');
+}
+
+#failed {
+  display: none;
+  color: red;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+#success {
+  display: none;
+  color: #18ed11;
+  font-weight: bold;
+  font-size: 20px;
+}
