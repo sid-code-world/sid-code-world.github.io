@@ -15,7 +15,7 @@ body {
 }
 
 body {
-  background-image: url('../Jumping-Jack/images/Pond.jpeg');
+  background-image: url('./images/download.jpeg');
 }
 
 #failed {
@@ -30,4 +30,36 @@ body {
   color: #18ed11;
   font-weight: bold;
   font-size: 20px;
+}
+
+h1 {
+  text-align: center;
+  color: #5eed11;
+
+}
+
+.gameStatus {
+  position: fixed;
+  font-size: 30px;
+  color: #ed1111;
+  display: none;
+  top: 300px;
+  width: 100%;
+}
+
+.gameStatus h1 {
+  text-align: center;
+  color: #ed1111;
+}
+
+#life1 {
+  display: block;
+}
+
+#life2 {
+  display: block;
+}
+
+#life3 {
+  display: block;
 }
