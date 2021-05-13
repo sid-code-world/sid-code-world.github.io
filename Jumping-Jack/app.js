@@ -7,6 +7,7 @@ var JumpUp = 0;
 var speedY = 0;
 var speedX = 0;
 var jackTheFrog = document.querySelector('.JackTheFrog');
+var theFrog = document.querySelector('#theFrog');
 let startTimer;
 let distanceToMove;
 let livesRemaining = 3;
@@ -109,16 +110,23 @@ if (deviceType == "keyboard") {
 
   })
 } else {
-  jackTheFrog.addEventListener('ontouchstart', ()=> {
-    startTime = new Date()
 
+  theFrog.addEventListener('touchstart', ()=> {
+    console.log("ontouch")
+    startTime = new Date()
   })
 
-  jackTheFrog.addEventListener('ontouchend', ()=> {
+  theFrog.addEventListener('touchend', ()=> {
     let diff = new Date() - startTime
     console.log('ontouchend', diff)
     distanceJumped.innerText = diff;
     startJump(diff);
 
-  })
+})
+
+theFrog.addEventListener('ondragstart', ()=> {
+  return false;
+
+})
+
 }
