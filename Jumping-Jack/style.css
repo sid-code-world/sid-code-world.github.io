@@ -49,6 +49,7 @@ h1 {
 
 .gameStatus h1 {
   text-align: center;
+  top: 250px;
   color: #ed1111;
 }
 
@@ -61,5 +62,15 @@ h1 {
 }
 
 #life3 {
+  display: block;
+}
+
+.resetBTN {
+  display: none;
+  width: 100px;
+  height: 75px;
+}
+
+.JackTheFrog {
   display: block;
 }

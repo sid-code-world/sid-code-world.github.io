@@ -16,6 +16,7 @@ var life1 = document.querySelector('#life1')
 var life2 = document.querySelector('#life2')
 var life3 = document.querySelector('#life3')
 var deviceType = "keyboard"
+var resetBtn = document.querySelector('.resetBTN')
 
 if ("ontouchstart" in document.documentElement) {
   deviceType = "touch";
@@ -37,6 +38,13 @@ function moveFrog() {
   console.log("distanceToMove: ",distanceToMove)
 
 
+}
+function nextLevel() {
+let lilypadrect = targetLilyPad.getBoundingClientRect();
+  if (successParagraph.style.display = "block") {
+    lilypadrect.bottom = 500;
+    lilypadrect.top = "";
+  }
 }
 
 function startJump(diff) {
@@ -64,6 +72,9 @@ function checkLanding(jackTop, jackBottom) {
     life1.style.display = "none"
     life2.style.display = "none"
     life3.style.display = "none"
+    resetBtn.style.display = "block"
+    jackTheFrog.style.display = "none"
+
   }
 
   if (livesRemaining === 1) {
@@ -87,13 +98,7 @@ function resetJack() {
   jackTheFrog.style.bottom = 20;
 }
 
-function nextLevel() {
-let lilypadrect = targetLilyPad.getBoundingClientRect();
-  if (successParagraph.style.display = "block") {
-    lilypadrect.bottom = 500;
-    lilypadrect.top = "";
-  }
-}
+
 
 
 //Event Listeners
@@ -124,9 +129,12 @@ if (deviceType == "keyboard") {
 
 })
 
-theFrog.addEventListener('ondragstart', ()=> {
+theFrog.addEventListener('dragstart', ()=> {
   return false;
 
 })
 
 }
+resetBtn.addEventListener('click', ()=> {
+  window.location.reload()
+})
