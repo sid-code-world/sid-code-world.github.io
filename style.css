@@ -1,0 +1,16 @@
+body {
+  background-image: linear-gradient(to bottom left, rgb(247,247,257) 23.8%, rgb(184, 227, 221) 92%);
+  z-index: 10;
+  padding: 20px 30px;
+  background-repeat: repeat-y;
+  height: 100vh;
+}
+
+.one {
+  float: left;
+  padding: 25px;
+}
+
+.two {
+  float: right;
+}

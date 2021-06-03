@@ -1,0 +1,35 @@
+.grid {
+  border: 1px solid;
+  display: flex;
+  flex-wrap: wrap;
+  height: 490px;
+  width: 490px;
+}
+
+
+.grid div {
+  height: 70px;
+  width: 70px;
+}
+
+.player-one {
+  background-color: red;
+  border-radius: 11px;
+}
+
+.player-two {
+  background-color: blue;
+  border-radius: 11px;
+}
+
+body {
+  background-image: linear-gradient(to bottom left, rgb(247,247,257) 23.8%, rgb(184, 227, 221) 92%);
+  z-index: 10;
+  padding: 20px 30px;
+  background-repeat: repeat-y;
+  height: 100vh;
+}
+
+.grid div {
+  box-shadow: 10px 10px 10 10 #ffffff
+}
