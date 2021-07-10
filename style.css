@@ -14,3 +14,9 @@ body {
 .two {
   float: right;
 }
+
+.three {
+  float: right;
+  padding: 50px;
+
+}
