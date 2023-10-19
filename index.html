@@ -1,45 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-
-
-  <style media="screen">
-  </style>
-
-
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,
-  initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
-  <link rel="stylesheet" href="style.css">
-  <title id = "Main-Head">Music Player</title>
-
+    <title>Rocket Launch Game</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
-
 <body>
-  <div class="Music-Player">
-  <h1>Hello! Welcome to my website!</h1>
-
-<div class="one">
-  <p>Check out <a href="./Music-Player/src/index.html">My Music Player</a></p>
-    <img src="images/one.png" alt="music player" width="350">
-
-    <p>Play <a href="./Whack-A-Mole-Game/index.html">Whack-a-Quack</a></p>
-    <img src="images/two.png" alt="whack-a-mole" width="350">
-
-</div>
-  <p>Play <a href="./Memory Game/index.html">Memory Game</a></p>
-  <img src="images/three.png" alt="memory-game" width="350">
-
-  <p>Play <a href="./Jumping-Jack/index.html">Jumping Jack</a></p>
-  <img src="images/four.png" alt="jumpingjack" width="350">
-<div class="two">
-  <p>Play <a href="./Connect-Four/index.html">Connect Four</a></p>
-  <img src="images/five.png" alt="connectfour" width="350">
-</div>
-<div class="three">
-<p>Read <a href="https://docs.google.com/document/d/1iPL_cRxoRG44h75opLoGgzS2iblkKy4f4hEFSdqSmOI/edit?usp=sharing">Lego Pulley Experiment</a></p>
-<img src="images/six.png" alt="legopulley" width="350">
-<p>Read <a href="https://docs.google.com/document/d/1gXosjoLZYthb-HlSLpl94uJtIpMpFyW5TonxM4TJUeE/edit?usp=sharing">Lobe Project</a>
-</div>
+    <div class="game-container">
+        <div class="rocket"></div>
+        <button id="launch-button">Launch Rocket</button>
+        <div class="fuel-box">
+            <input type="number" id="fuel-input" placeholder="Enter Fuel Amount" />
+            <button id="add-fuel-button">Add Fuel</button>
+        </div>
+        <div class="mass-box">
+            <input type="number" id="mass-input" placeholder="Enter New Mass (kg)" />
+            <button id="change-mass-button">Change Mass</button>
+        </div>
+        <button id="reset-button">Reset Rocket Position</button>
+        <p id="speed-display">Rocket speed: 0 m/s</p>
+        <div class="scale">
+            <div class="rocket-mini"></div>
+            <div class="milestone" id="space-milestone">Space</div>
+            <div class="milestone" id="atmosphere-milestone">Earth's Atmosphere</div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
