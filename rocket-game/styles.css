@@ -1,0 +1,104 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Dark space background */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.game-container {
+    background-color: rgba(0, 0, 0, 0.7); /* Slightly transparent black background */
+    border: 2px solid #333; /* Dark border */
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* White shadow for depth effect */
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    width: 400px;
+}
+
+.rocket {
+    width: 40px;
+    height: 80px;
+    background-color: #ff5733; /* Fiery red */
+    border-radius: 10px;
+    position: relative;
+    bottom: 0;
+    transition: bottom 0.1s;
+    margin: 20px 0;
+    z-index: 2;
+}
+
+button {
+    background-color: #45a049; /* Green */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4caf50; /* Lighter green on hover */
+}
+
+input[type="number"] {
+    padding: 5px;
+    border: 1px solid #555; /* Darker border for input */
+    border-radius: 5px;
+    margin: 5px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white background */
+    color: #fff; /* White text */
+}
+
+#speed-display {
+    font-size: 18px;
+    margin-top: 10px;
+    color: #fff; /* White text */
+}
+
+.fuel-box, .mass-box {
+    margin-top: 10px;
+}
+
+#atmosphere-milestone, #space-milestone {
+    margin: 20px 0;
+    font-weight: bold;
+    color: #fff; /* White text */
+}
+
+/* Scale styles */
+.scale {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    width: 50px;
+    background: rgba(255, 255, 255, 0.1); /* Slightly transparent white background */
+    border: 1px solid #555; /* Darker border */
+    padding: 10px;
+    height: calc(100% - 40px);
+    z-index: 1;
+    color: #fff; /* White text */
+}
+
+.rocket-mini {
+    width: 20px;
+    height: 40px;
+    background-color: #ff5733;
+    border-radius: 5px;
+    position: absolute;
+    bottom: 0;
+    transition: bottom 0.1s;
+}
+
+.milestone {
+    border-top: 1px solid #555; /* Darker border */
+    margin-top: 20px;
+    padding-top: 5px;
+    text-align: center;
+}
