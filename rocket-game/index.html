@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Rocket Launch Game</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="game-container">
+            <div class="rocket"></div>
+            <button id="launch-button">Launch Rocket</button>
+            <div class="fuel-box">
+                <input type="number" id="fuel-input" placeholder="Enter Fuel Amount" />
+                <button id="add-fuel-button">Add Fuel</button>
+            </div>
+            <div class="mass-box">
+                <input type="number" id="mass-input" placeholder="Enter New Mass (kg)" />
+                <button id="change-mass-button">Change Mass</button>
+            </div>
+            <button id="reset-button">Reset Rocket Position</button>
+            <p id="speed-display">Rocket speed: 0 m/s</p>
+            <p id="height-display">Rocket height: 0 m</p>
+        </div>
+        <div class="rocket-container">
+            <div class="minirocket" id="minirocket"></div>
+            <div class="scale">
+                <div class="milestone" id="atmosphere-milestone">Earth's Atmosphere</div>
+                <div class="milestone" id="space-milestone">Space</div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+
