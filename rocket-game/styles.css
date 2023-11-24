@@ -1,0 +1,115 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 800px;
+    width: 100%;
+}
+
+.game-container {
+    background-color: rgba(0, 0, 0, 0.7);
+    border: 2px solid #333;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    text-align: center;
+    width: 50%;
+    padding: 10px;
+}
+
+.rocket-container {
+    width: 50%;
+    align-items: center;
+    justify-content: center;
+    
+        display: none;
+    }
+
+
+    .rocket {
+        width: 40px;
+        height: 80px;
+        background-color: #3498db;
+        position: absolute; /* Specify the position property */
+        bottom: 0; /* Set the initial bottom position */
+        z-index: 2;
+    }
+    
+
+button {
+    background-color: #45a049;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    margin: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #4caf50;
+}
+
+input[type="number"] {
+    padding: 3px;
+    border: 1px solid #555;
+    border-radius: 5px;
+    margin: 3px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+#speed-display, #height-display, #fuel-display, #mass-display {
+    font-size: 14px;
+    margin-top: 8px;
+    color: #fff;
+    z-index: 2;
+}
+
+.fuel-box, .mass-box {
+    margin-top: 8px;
+}
+
+#atmosphere-milestone, #space-milestone {
+    margin: 10px 0;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* Scale styles */
+.scale {
+    position: relative; /* Change to relative positioning */
+    width: 50px; /* Adjust width */
+    height: 100%; /* Adjust height */
+    margin: 0; /* Remove unnecessary margin */
+    padding: 5px;
+    z-index: 1;
+    color: #fff;
+}
+
+.minirocket {
+    width: 20px;
+    height: 40px;
+    background-color: red;
+    position: absolute;
+    bottom: 0;
+    transition: bottom 0.5s;
+}
+
+.milestone {
+    border-top: 1px solid #555;
+    padding-top: 2px;
+    text-align: center;
+    font-size: 12px;
+}
+
