@@ -1,37 +1,34 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solitaire</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-<body style="display: none">
-	<img src="".\Solitaire\PC Computer - Solitaire - Cards.png"" id="cardSpriteSheet" style="display: none;">
-
-   <div class="window">
-        <div class="window__inner">
-            <div class="window__heading">
-                <div class="window__heading-icon"></div>
-					Solitaire
-            </div>
-            <div class="window__actions">
-                <button type="button" id="js-reset" class="new-game">New Game</button>
-            </div>
-            <div class="window__content">
-                <div class="window__content-inner">
-                    <div class="solitaire" id="js-solitaire">
-                        <div id="js-finish" class="finish-deck"></div>
-                        <div id="js-board" class="board-deck"></div>
-
-                        <div class="deck">
-                            <div id="js-deck-pile" class="deck__pile"></div>
-                            <div id="js-deck-deal" class="deck__deal"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="deck">Deck</div>
+            <div class="discardPile">Discard Pile</div>
+            <div class="emptySpace">Empty Space</div>
+            <div class="foundationPile">Foundation Pile 1</div>
+            <div class="foundationPile">Foundation Pile 2</div>
+            <div class="foundationPile">Foundation Pile 3</div>
+            <div class="foundationPile">Foundation Pile 4</div>
+        </div>
+        <div class="row">
+            <div class="pile">Pile 1</div>
+            <div class="pile">Pile 2</div>
+            <div class="pile">Pile 3</div>
+            <div class="pile">Pile 4</div>
+            <div class="pile">Pile 5</div>
+            <div class="pile">Pile 6</div>
+            <div class="pile">Pile 7</div>
         </div>
     </div>
-    <script type="text/javascript" src=".\solitaire.js"></script>
+
+   
+    <script src="solitaire.js"></script>
 </body>
 </html>
