@@ -43,13 +43,15 @@ function Card(face, rank) {
     this.dragStart = function(e) {
         e.dataTransfer.setData('text/plain', `${this.face},${this.rank}`);
         setTimeout(() => this.element.classList.add('invisible'), 0);
-        this.pile.removeCard(this);
     };
 
     this.dragEnd = function(e) {
         this.element.classList.remove('invisible');
-        // Re-render the original pile to update its display
-        this.pile.render();
+        if (this.pile) {
+            this.pile.render();
+        }
+        checkWinCondition();
+        checkLoseCondition();
     };
 
     this.setPile = function(pile) {
@@ -133,13 +135,23 @@ function Pile(container) {
     };
 
     this.drop = function(e) {
+        e.preventDefault();
         const data = e.dataTransfer.getData('text/plain').split(',');
-        const card = new Card(data[0], parseInt(data[1]));
+        const face = data[0];
+        const rank = parseInt(data[1]);
+        const card = new Card(face, rank);
+        const oldPile = card.pile; // Keep reference to the old pile
+
         if (this.canPlaceCard(card)) {
             card.isFaceUp = true;
             this.addCard(card);
+            if (oldPile) {
+                oldPile.removeCard(card);
+            }
         } else {
-            card.pile.addCard(card);
+            if (oldPile) {
+                oldPile.addCard(card); // Re-add to the old pile if move is invalid
+            }
         }
     };
 
@@ -185,13 +197,23 @@ function FoundationPile(container) {
     };
 
     this.drop = function(e) {
+        e.preventDefault();
         const data = e.dataTransfer.getData('text/plain').split(',');
-        const card = new Card(data[0], parseInt(data[1]));
+        const face = data[0];
+        const rank = parseInt(data[1]);
+        const card = new Card(face, rank);
+        const oldPile = card.pile; // Keep reference to the old pile
+
         if (this.canPlaceCard(card)) {
             card.isFaceUp = true;
             this.addCard(card);
+            if (oldPile) {
+                oldPile.removeCard(card);
+            }
         } else {
-            card.pile.addCard(card);
+            if (oldPile) {
+                oldPile.addCard(card); // Re-add to the old pile if move is invalid
+            }
         }
     };
 
@@ -207,6 +229,7 @@ function DiscardPile(container) {
 
     this.addCard = function(card) {
         this.cards.push(card);
+        card.setPile(this);
         this.render();
     };
 
@@ -259,12 +282,44 @@ function Game() {
             if (card) {
                 this.discardPile.addCard(card);
             }
+            checkLoseCondition();
         });
     };
 
     this.start = function() {
         this.initialize();
     };
+}
+
+function checkWinCondition() {
+    let win = true;
+    for (const pile of game.foundationPiles) {
+        if (pile.cards.length !== 13) {
+            win = false;
+            break;
+        }
+    }
+    if (win) {
+        alert("Congratulations! You've won the game!");
+    }
+}
+
+function checkLoseCondition() {
+    let lose = true;
+    for (const pile of game.piles) {
+        for (const card of pile.cards) {
+            if (pile.canPlaceCard(card)) {
+                lose = false;
+                break;
+            }
+        }
+        if (!lose) {
+            break;
+        }
+    }
+    if (lose && game.deck.cards.length === 0 && game.discardPile.cards.length === 0) {
+        alert("No more moves! You've lost the game.");
+    }
 }
 
 const game = new Game();
