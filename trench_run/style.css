@@ -1,0 +1,115 @@
+/* style.css */
+body {
+    margin: 0;
+    overflow: hidden; /* Prevent scrollbars */
+    background-color: #000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif; /* Added fallback font */
+}
+
+/* Style the container if needed, or directly style the canvas */
+/* Removed empty ruleset for #gameContainer */
+
+canvas {
+    display: block; /* Remove extra space below canvas if needed */
+    border: 1px solid #222; /* Optional border */
+}
+
+#messageBox {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #0f0; /* Green computer text color */
+    font-size: 3em;
+    font-weight: bold;
+    text-align: center;
+    display: none; /* Hidden initially */
+    text-shadow: 0 0 8px #0f0, 0 0 15px #0f0;
+    pointer-events: none; /* Allow clicks/touches through message */
+    line-height: 1.2;
+    z-index: 10; /* Ensure message box is on top */
+}
+
+
+#distanceCounter {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #0f0; /* Match message box color */
+    font-size: 1.5em;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 0 0 5px #0f0;
+    z-index: 10; /* Ensure it's on top */
+}
+
+/* Add these styles for the health bar */
+#healthBarContainer {
+    position: absolute;
+    top: 50px; /* Position below distance counter */
+    left: 20px;
+    color: #0f0;
+    font-size: 1.5em;
+    font-family: 'Arial', sans-serif;
+    text-shadow: 0 0 5px #0f0;
+    z-index: 10;
+    background-color: rgba(50, 50, 50, 0.5); /* Semi-transparent background */
+    padding: 5px;
+    border-radius: 5px;
+    display: flex; /* Align text and bar */
+    align-items: center;
+}
+
+#healthBar {
+    width: 150px; /* Width of the health bar */
+    height: 15px;
+    background-color: #ff0000; /* Red background (empty part) */
+    border: 1px solid #0f0;
+    border-radius: 3px;
+    margin-left: 10px; /* Space between text and bar */
+    overflow: hidden; /* Hide overflow for inner bar */
+    position: relative; /* Needed for inner bar positioning */
+}
+
+#healthBar::after { /* Pseudo-element for the green part */
+    content: '';
+    display: block;
+    height: 100%;
+    width: 100%; /* Default to full */
+    background-color: #00ff00; /* Green health */
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.3s ease-in-out; /* Smooth transition on health change */
+}
+/* Add this rule for the health bar fill */
+#healthBar::after {
+    content: '';
+    display: block;
+    height: 100%;
+    /* Use the CSS variable set by JavaScript */
+    width: var(--health-percentage, 100%);
+    background-color: #00ff00; /* Green health */
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: width 0.3s ease-in-out; /* Smooth transition on health change */
+    border-radius: 2px; /* Match outer border-radius slightly */
+}
+
+/* Add these styles for the hit flash effect */
+#hitFlashOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 0, 0, 0.5); /* Semi-transparent red */
+    opacity: 0; /* Start hidden */
+    pointer-events: none; /* Don't block interactions */
+    z-index: 100; /* Ensure it's on top */
+    transition: opacity 0.1s ease-out; /* Quick fade out */
+}
