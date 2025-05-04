@@ -1,29 +1,123 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Rocket Launch Game</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>My Personal Website</title>
+    <style>
+        /* Apply Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom purple color for theme consistency */
+        .bg-custom-purple { background-color: #6d28d9; } /* Example: Indigo-700 */
+        .text-custom-purple { color: #6d28d9; }
+        .border-custom-purple { border-color: #6d28d9; }
+        .hover\:bg-custom-purple-dark:hover { background-color: #5b21b6; } /* Example: Indigo-800 */
+    </style>
 </head>
-<body>
-    <div class="game-container">
-        <div class="rocket"></div>
-        <button id="launch-button">Launch Rocket</button>
-        <div class="fuel-box">
-            <input type="number" id="fuel-input" placeholder="Enter Fuel Amount" />
-            <button id="add-fuel-button">Add Fuel</button>
+<body class="bg-gray-900 text-white">
+
+    <header class="bg-black shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-custom-purple">My Portfolio</div>
+            <div>
+                <a href="#blogs" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Blogs</a>
+                <a href="#hardware" class="text-gray-300 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Hardware</a>
+                <a href="old_projects.html" class="ml-4 inline-block bg-custom-purple hover:bg-custom-purple-dark text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
+                   View Old Projects
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="bg-gray-800 py-20 md:py-32 text-center">
+        <div class="container mx-auto px-6">
+            <h1 class="text-4xl md:text-6xl font-bold mb-4">Welcome to My Digital Space</h1>
+            <p class="text-lg md:text-xl text-gray-300 mb-8">Exploring code, circuits, and creativity.</p>
+            </div>
+    </section>
+
+    <section id="blogs" class="py-16 md:py-24 bg-gray-900">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-custom-purple">Latest Blog Posts</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x400/1f2937/e5e7eb?text=Blog+Image+1" alt="Blog Post 1 Placeholder" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Image+Not+Found'">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">My Journey into Web Development</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Published on: April 28, 2025</p>
+                        <p class="text-gray-300 mb-4">A brief overview of how I started learning web development and the challenges I faced...</p>
+                        <a href="#" class="text-custom-purple hover:underline font-medium">Read More &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x400/1f2937/e5e7eb?text=Blog+Image+2" alt="Blog Post 2 Placeholder" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Image+Not+Found'">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Understanding Async/Await in JavaScript</h3>
+                        <p class="text-gray-400 mb-4 text-sm">Published on: April 15, 2025</p>
+                        <p class="text-gray-300 mb-4">Diving deep into asynchronous JavaScript and how async/await simplifies code...</p>
+                        <a href="#" class="text-custom-purple hover:underline font-medium">Read More &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x400/1f2937/e5e7eb?text=Blog+Image+3" alt="Blog Post 3 Placeholder" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Image+Not+Found'">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Getting Started with Tailwind CSS</h3>
+                         <p class="text-gray-400 mb-4 text-sm">Published on: March 30, 2025</p>
+                        <p class="text-gray-300 mb-4">Why I chose Tailwind CSS for my projects and a quick guide to setting it up...</p>
+                        <a href="#" class="text-custom-purple hover:underline font-medium">Read More &rarr;</a>
+                    </div>
+                </div>
+                </div>
         </div>
-        <div class="mass-box">
-            <input type="number" id="mass-input" placeholder="Enter New Mass (kg)" />
-            <button id="change-mass-button">Change Mass</button>
+    </section>
+
+    <section id="hardware" class="py-16 md:py-24 bg-gray-800">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12 text-custom-purple">Hardware Creations</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                     <img src="https://placehold.co/600x400/111827/e5e7eb?text=Hardware+1" alt="Hardware Project 1 Placeholder" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/111827/e5e7eb?text=Image+Not+Found'">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Automated Plant Watering System</h3>
+                        <p class="text-gray-400 mb-4">Using Arduino and sensors to keep my plants happy even when I'm away...</p>
+                        <a href="#" class="text-custom-purple hover:underline font-medium">View Details &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                    <img src="https://placehold.co/600x400/111827/e5e7eb?text=Hardware+2" alt="Hardware Project 2 Placeholder" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/111827/e5e7eb?text=Image+Not+Found'">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Custom Mechanical Keyboard Build</h3>
+                        <p class="text-gray-400 mb-4">From soldering switches to programming layers with QMK firmware...</p>
+                        <a href="#" class="text-custom-purple hover:underline font-medium">View Details &rarr;</a>
+                    </div>
+                </div>
+
+                <div class="bg-gray-900 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                     <img src="https://placehold.co/600x400/111827/e5e7eb?text=Hardware+3" alt="Hardware Project 3 Placeholder" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/111827/e5e7eb?text=Image+Not+Found'">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold mb-2">Raspberry Pi Weather Station</h3>
+                        <p class="text-gray-400 mb-4">Collecting and displaying local weather data using a Raspberry Pi and sensors...</p>
+                        <a href="#" class="text-custom-purple hover:underline font-medium">View Details &rarr;</a>
+                    </div>
+                </div>
+                 </div>
         </div>
-        <button id="reset-button">Reset Rocket Position</button>
-        <p id="speed-display">Rocket speed: 0 m/s</p>
-        <div class="scale">
-            <div class="rocket-mini"></div>
-            <div class="milestone" id="space-milestone">Space</div>
-            <div class="milestone" id="atmosphere-milestone">Earth's Atmosphere</div>
-        </div>
-    </div>
-    <script src="script.js"></script>
+    </section>
+
+    <footer class="bg-black text-gray-400 py-8 text-center">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 [Your Name]. All Rights Reserved.</p>
+            </div>
+    </footer>
+
 </body>
 </html>
