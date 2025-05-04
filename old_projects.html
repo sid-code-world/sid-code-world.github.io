@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>My Old Projects</title>
+    <style>
+        /* Apply Inter font globally */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom purple color for theme consistency */
+        .bg-custom-purple { background-color: #6d28d9; } /* Example: Indigo-700 */
+        .text-custom-purple { color: #6d28d9; }
+        .border-custom-purple { border-color: #6d28d9; }
+        .hover\:bg-custom-purple-dark:hover { background-color: #5b21b6; } /* Example: Indigo-800 */
+    </style>
+</head>
+<body class="bg-gray-900 text-white">
+
+    <header class="bg-black shadow-md sticky top-0 z-50">
+        <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="text-2xl font-bold text-custom-purple">Archived Projects</div>
+            <div>
+                <a href="index.html"
+                   class="inline-block bg-custom-purple hover:bg-custom-purple-dark text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1 shadow-lg">
+                   &larr; Back to Main Site
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-6 py-16 md:py-24">
+        <h1 class="text-3xl md:text-4xl font-bold text-center mb-12 text-custom-purple">My Older Projects</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                <img src="images/one.png" alt="Music Player Preview" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Music+Player'">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">My Music Player</h3>
+                    <p class="text-gray-400 mb-4">A custom music player application.</p>
+                    <a href="./Music-Player/src/index.html" class="text-custom-purple hover:underline font-medium" target="_blank" rel="noopener noreferrer">Check it out &rarr;</a>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                <img src="images/two.png" alt="Whack-a-Quack Game Preview" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Whack-a-Quack'">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Whack-a-Quack</h3>
+                    <p class="text-gray-400 mb-4">A fun whack-a-mole style game.</p>
+                    <a href="./Whack-A-Mole/index.html" class="text-custom-purple hover:underline font-medium" target="_blank" rel="noopener noreferrer">Play Game &rarr;</a>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                 <img src="images/three.png" alt="Memory Game Preview" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Memory+Game'">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Memory Game</h3>
+                    <p class="text-gray-400 mb-4">Test your memory with this card matching game.</p>
+                    <a href="./Memory-Game/index.html" class="text-custom-purple hover:underline font-medium" target="_blank" rel="noopener noreferrer">Play Game &rarr;</a>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                 <img src="images/four.png" alt="Jumping Jack Game Preview" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Jumping+Jack'">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Jumping Jack</h3>
+                    <p class="text-gray-400 mb-4">A simple platformer game.</p>
+                     <a href="./Jumping-Jack/index.html" class="text-custom-purple hover:underline font-medium" target="_blank" rel="noopener noreferrer">Play Game &rarr;</a>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform transition duration-300 hover:scale-105">
+                 <img src="images/five.png" alt="Connect Four Game Preview" class="w-full h-48 object-cover" onerror="this.src='https://placehold.co/600x400/1f2937/e5e7eb?text=Connect+Four'">
+                <div class="p-6">
+                    <h3 class="text-xl font-semibold mb-2">Connect Four</h3>
+                    <p class="text-gray-400 mb-4">The classic Connect Four game.</p>
+                     <a href="./Connect-four/index.html" class="text-custom-purple hover:underline font-medium" target="_blank" rel="noopener noreferrer">Play Game &rarr;</a>
+                </div>
+            </div>
+        </div> </main>
+
+
+    <footer class="bg-black text-gray-400 py-8 text-center mt-16">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 [Your Name]. All Rights Reserved.</p>
+            <p class="mt-2 text-sm">Looking for my latest work? <a href="index.html" class="text-custom-purple hover:underline">Go back to the main site</a>.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
