@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Musical Notes Player</title>
+    <!-- Use Tailwind CSS for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Use the Inter font for a clean look -->
+    <style>
+        body { font-family: "Inter", sans-serif; }
+    </style>
+    <!-- Import Tone.js library for audio synthesis -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+</head>
+<body class="bg-gray-900">
+    <div id="app" class="flex flex-col items-center justify-center min-h-screen p-4 text-white">
+        <div class="w-full max-w-2xl bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6 border border-gray-700">
+            <h1 class="text-4xl font-extrabold text-center text-indigo-400">
+                Musical Notes Player 🎶
+            </h1>
+            <p class="text-center text-gray-400">
+                Enter notes to play a simple or advanced melody.
+            </p>
+
+            <!-- Advanced mode toggle -->
+            <div class="flex items-center space-x-2 justify-center">
+                <input type="checkbox" id="advancedModeToggle" class="form-checkbox h-5 w-5 text-indigo-600 rounded-md">
+                <label for="advancedModeToggle" class="text-gray-300 select-none">Advanced Mode</label>
+            </div>
+
+            <!-- Notes input area (Simple Mode) -->
+            <div id="simpleMode" class="hidden space-y-4">
+                <p class="text-center text-gray-400">
+                    Enter notes separated by commas. (e.g., 'C4, Eb4, G4')
+                </p>
+                <textarea
+                    id="notesInputSimple"
+                    class="w-full h-32 p-4 text-lg bg-gray-700 text-gray-200 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    placeholder="Enter notes here..."
+                >C4, E4, G4</textarea>
+            </div>
+
+            <!-- Advanced controls (hidden by default) -->
+            <div id="advancedMode" class="space-y-4">
+                <p class="text-center text-gray-400">
+                    Enter notes with optional durations (e.g., 'C4/4n, Eb4/8n, G4/2n').
+                </p>
+                <div class="flex items-center space-x-2 justify-center">
+                    <label for="tempoInput" class="text-gray-400">Tempo (BPM):</label>
+                    <input
+                        type="number"
+                        id="tempoInput"
+                        value="100"
+                        min="40"
+                        max="240"
+                        class="w-24 p-2 text-center bg-gray-700 text-gray-200 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    >
+                </div>
+                <textarea
+                    id="notesInputAdvanced"
+                    class="w-full h-32 p-4 text-lg bg-gray-700 text-gray-200 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
+                    placeholder="Enter notes here..."
+                >E5/16n, D#5/16n, E5/16n, D#5/16n, E5/16n, B4/16n, D5/16n, C5/16n, A4/8n, C4/16n, E4/16n, A4/16n, B4/16n, E4/16n, G#4/16n, B4/16n, C5/8n</textarea>
+            </div>
+
+            <!-- Play button -->
+            <div class="flex justify-center items-center">
+                <button
+                    id="playButton"
+                    class="px-8 py-3 rounded-lg font-bold text-white shadow-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-500"
+                >
+                    Play
+                </button>
+            </div>
+
+            <!-- Status message area -->
+            <div id="messageDisplay" class="text-center text-sm font-medium text-gray-400 mt-4">
+                Enter notes and click play!
+            </div>
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // === DOM Elements ===
+            const simpleModeDiv = document.getElementById('simpleMode');
+            const advancedModeDiv = document.getElementById('advancedMode');
+            const advancedModeToggle = document.getElementById('advancedModeToggle');
+            const notesInputSimple = document.getElementById('notesInputSimple');
+            const notesInputAdvanced = document.getElementById('notesInputAdvanced');
+            const tempoInput = document.getElementById('tempoInput');
+            const playButton = document.getElementById('playButton');
+            const messageDisplay = document.getElementById('messageDisplay');
+
+            // === State Variables ===
+            let isPlaying = false;
+
+            // === Tone.js Instruments ===
+            // Initialize a single synthesizer
+            const synth = new Tone.PolySynth(Tone.AMSynth).toDestination();
+
+            // === UI and State Functions ===
+            const updateUI = () => {
+                playButton.textContent = isPlaying ? 'Stop' : 'Play';
+                playButton.classList.toggle('bg-red-500', isPlaying);
+                playButton.classList.toggle('hover:bg-red-600', isPlaying);
+                playButton.classList.toggle('focus:ring-red-500', isPlaying);
+                playButton.classList.toggle('bg-indigo-500', !isPlaying);
+                playButton.classList.toggle('hover:bg-indigo-600', !isPlaying);
+                playButton.classList.toggle('focus:ring-indigo-500', !isPlaying);
+            };
+
+            const toggleAdvancedMode = () => {
+                if (advancedModeToggle.checked) {
+                    simpleModeDiv.classList.add('hidden');
+                    advancedModeDiv.classList.remove('hidden');
+                } else {
+                    simpleModeDiv.classList.remove('hidden');
+                    advancedModeDiv.classList.add('hidden');
+                }
+            };
+
+            // === Event Handlers ===
+            const handlePlay = async () => {
+                if (isPlaying) {
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+                    isPlaying = false;
+                    messageDisplay.textContent = 'Stopped.';
+                    updateUI();
+                    return;
+                }
+
+                if (Tone.context.state !== 'running') {
+                    await Tone.start();
+                }
+
+                try {
+                    isPlaying = true;
+                    updateUI();
+                    messageDisplay.textContent = 'Playing...';
+
+                    Tone.Transport.stop();
+                    Tone.Transport.cancel();
+
+                    let noteStrings;
+                    let currentTime = 0;
+
+                    // Logic for simple mode
+                    if (!advancedModeToggle.checked) {
+                        Tone.Transport.bpm.value = 120; // Fixed tempo for simple mode
+                        noteStrings = notesInputSimple.value.split(',').map(note => note.trim());
+                        const defaultDuration = '4n';
+
+                        noteStrings.forEach((note) => {
+                            if (note) {
+                                Tone.Transport.scheduleOnce(time => {
+                                    synth.triggerAttackRelease(note, defaultDuration, time);
+                                }, currentTime);
+                                currentTime += Tone.Time(defaultDuration).toSeconds();
+                            }
+                        });
+                    }
+                    // Logic for advanced mode
+                    else {
+                        Tone.Transport.bpm.value = parseInt(tempoInput.value, 10);
+                        noteStrings = notesInputAdvanced.value.split(',').map(note => note.trim());
+                        
+                        noteStrings.forEach((noteString) => {
+                            if (noteString) {
+                                const parts = noteString.split('/');
+                                const note = parts[0];
+                                const duration = parts[1] || '4n'; // Default to a quarter note if not specified
+                                
+                                Tone.Transport.scheduleOnce(time => {
+                                    synth.triggerAttackRelease(note, duration, time);
+                                }, currentTime);
+                                
+                                currentTime += Tone.Time(duration).toSeconds();
+                            }
+                        });
+                    }
+
+                    Tone.Transport.scheduleOnce(() => {
+                        isPlaying = false;
+                        messageDisplay.textContent = 'Playback finished.';
+                        updateUI();
+                    }, currentTime);
+
+                    Tone.Transport.start();
+
+                } catch (error) {
+                    console.error("Error playing notes:", error);
+                    messageDisplay.textContent = `Error: Invalid notes format. Please check your input.`;
+                    isPlaying = false;
+                    updateUI();
+                }
+            };
+            
+            // Attach event listeners
+            playButton.addEventListener('click', handlePlay);
+            advancedModeToggle.addEventListener('change', toggleAdvancedMode);
+
+            // Initial UI setup
+            advancedModeToggle.checked = true; // Set advanced mode on by default
+            toggleAdvancedMode(); // Set the initial state of the UI
+            updateUI();
+        });
+    </script>
+</body>
+</html>
