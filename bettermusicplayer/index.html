@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Musical Notes Player</title>
+    <title>Multi-Track Musical Player</title>
     <!-- Use Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Use the Inter font for a clean look -->
@@ -14,39 +14,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
 </head>
 <body class="bg-gray-900">
-    <div id="app" class="flex flex-col items-center justify-center min-h-screen p-4 text-white">
-        <div class="w-full max-w-2xl bg-gray-800 rounded-2xl shadow-xl p-8 space-y-6 border border-gray-700">
+    <div id="app" class="flex flex-col items-center min-h-screen p-4 text-white">
+        <div class="w-full max-w-4xl bg-gray-800 rounded-2xl shadow-xl p-8 space-y-8 border border-gray-700">
             <h1 class="text-4xl font-extrabold text-center text-indigo-400">
-                Musical Notes Player 🎶
+                Multi-Track Musical Player 🎵
             </h1>
             <p class="text-center text-gray-400">
-                Enter notes to play a simple or advanced melody.
+                Create your own orchestra by adding multiple instrument tracks.
             </p>
 
-            <!-- Advanced mode toggle -->
-            <div class="flex items-center space-x-2 justify-center">
-                <input type="checkbox" id="advancedModeToggle" class="form-checkbox h-5 w-5 text-indigo-600 rounded-md">
-                <label for="advancedModeToggle" class="text-gray-300 select-none">Advanced Mode</label>
-            </div>
-
-            <!-- Notes input area (Simple Mode) -->
-            <div id="simpleMode" class="hidden space-y-4">
-                <p class="text-center text-gray-400">
-                    Enter notes separated by commas. (e.g., 'C4, Eb4, G4')
-                </p>
-                <textarea
-                    id="notesInputSimple"
-                    class="w-full h-32 p-4 text-lg bg-gray-700 text-gray-200 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
-                    placeholder="Enter notes here..."
-                >C4, E4, G4</textarea>
-            </div>
-
-            <!-- Advanced controls (hidden by default) -->
-            <div id="advancedMode" class="space-y-4">
-                <p class="text-center text-gray-400">
-                    Enter notes with optional durations (e.g., 'C4/4n, Eb4/8n, G4/2n').
-                </p>
-                <div class="flex items-center space-x-2 justify-center">
+            <!-- Playback Controls and Tempo -->
+            <div class="flex flex-col md:flex-row items-center justify-center space-y-4 md:space-y-0 md:space-x-8">
+                <div class="flex items-center space-x-2">
                     <label for="tempoInput" class="text-gray-400">Tempo (BPM):</label>
                     <input
                         type="number"
@@ -57,51 +36,125 @@
                         class="w-24 p-2 text-center bg-gray-700 text-gray-200 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
                     >
                 </div>
-                <textarea
-                    id="notesInputAdvanced"
-                    class="w-full h-32 p-4 text-lg bg-gray-700 text-gray-200 rounded-lg border border-gray-600 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors"
-                    placeholder="Enter notes here..."
-                >E5/16n, D#5/16n, E5/16n, D#5/16n, E5/16n, B4/16n, D5/16n, C5/16n, A4/8n, C4/16n, E4/16n, A4/16n, B4/16n, E4/16n, G#4/16n, B4/16n, C5/8n</textarea>
-            </div>
-
-            <!-- Play button -->
-            <div class="flex justify-center items-center">
                 <button
                     id="playButton"
                     class="px-8 py-3 rounded-lg font-bold text-white shadow-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 bg-indigo-500 hover:bg-indigo-600 focus:ring-indigo-500"
                 >
-                    Play
+                    Play All
+                </button>
+            </div>
+
+            <!-- Tracks Container -->
+            <div id="tracksContainer" class="space-y-6">
+                <!-- Instrument tracks will be dynamically added here -->
+            </div>
+
+            <!-- Add Track Button -->
+            <div class="flex justify-center mt-6">
+                <button
+                    id="addTrackButton"
+                    class="px-6 py-2 rounded-lg font-bold text-gray-200 shadow-lg transition-all transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 bg-gray-700 hover:bg-gray-600 focus:ring-gray-500"
+                >
+                    + Add Track
                 </button>
             </div>
 
             <!-- Status message area -->
             <div id="messageDisplay" class="text-center text-sm font-medium text-gray-400 mt-4">
-                Enter notes and click play!
+                Click "Add Track" to begin composing!
             </div>
         </div>
     </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // === DOM Elements ===
-            const simpleModeDiv = document.getElementById('simpleMode');
-            const advancedModeDiv = document.getElementById('advancedMode');
-            const advancedModeToggle = document.getElementById('advancedModeToggle');
-            const notesInputSimple = document.getElementById('notesInputSimple');
-            const notesInputAdvanced = document.getElementById('notesInputAdvanced');
             const tempoInput = document.getElementById('tempoInput');
             const playButton = document.getElementById('playButton');
+            const tracksContainer = document.getElementById('tracksContainer');
+            const addTrackButton = document.getElementById('addTrackButton');
             const messageDisplay = document.getElementById('messageDisplay');
 
             // === State Variables ===
             let isPlaying = false;
+            let trackIndex = 0;
+            const instruments = {}; // Stores Tone.js instruments keyed by their ID
+            const instrumentTypes = {
+                'Synth': Tone.Synth,
+                'Piano': Tone.Sampler, // Sampler for a more realistic piano sound
+                'Drums': Tone.Sampler, // Sampler for drums
+                'Violin': Tone.Sampler // Sampler for violin
+            };
 
-            // === Tone.js Instruments ===
-            // Initialize a single synthesizer
-            const synth = new Tone.PolySynth(Tone.AMSynth).toDestination();
+            // Pre-defined melodies for each instrument
+            const defaultMelodies = {
+                'Synth': 'C4/4n, E4/4n, G4/4n, C5/4n',
+                'Piano': 'C4/4n, G4/4n, A4/4n, G4/4n, F4/4n, E4/4n, D4/4n, C4/4n',
+                'Drums': 'C1/8n, D#1/8n, F#1/8n, D#1/8n, C1/8n, D#1/8n, F#1/8n, D#1/8n',
+                'Violin': 'C4/2n, G4/2n, C5/4n, G4/4n, E4/4n, C4/4n'
+            };
+
+            // Sampler presets for more realistic sounds
+            const pianoSampler = new Tone.Sampler({
+                urls: {
+                    "C4": "https://tonejs.github.io/audio/salamander/C4.mp3",
+                },
+                release: 1,
+                onload: () => console.log('Piano sampler loaded.')
+            }).toDestination();
+
+            // Updated Violin Sampler with a wider range of notes
+            // We use a known public domain sample library to avoid "buffer not loaded" errors.
+            const violinSampler = new Tone.Sampler({
+                urls: {
+                    'A3': 'A3.mp3',
+                    'A4': 'A4.mp3',
+                    'A5': 'A5.mp3',
+                    'A6': 'A6.mp3',
+                    'C4': 'C4.mp3',
+                    'C5': 'C5.mp3',
+                    'C6': 'C6.mp3',
+                    'C7': 'C7.mp3',
+                    'E4': 'E4.mp3',
+                    'E5': 'E5.mp3',
+                    'E6': 'E6.mp3',
+                    'G4': 'G4.mp3',
+                    'G5': 'G5.mp3',
+                    'G6': 'G6.mp3'
+                },
+                release: 1,
+                // Using a known CDN for the violin samples
+                baseUrl: "https://d3j56r3j3s4x.cloudfront.net/violin-mp3/", 
+                onload: () => {
+                    messageDisplay.textContent = 'Violin sampler loaded.';
+                    console.log('Violin sampler loaded.');
+                }
+            }).toDestination();
+
+            const drumSampler = new Tone.Sampler({
+                urls: {
+                    "C1": "https://tonejs.github.io/audio/drum-samples/acoustic-kit/kick.mp3",
+                    "D#1": "https://tonejs.github.io/audio/drum-samples/acoustic-kit/snare.mp3",
+                    "F#1": "https://tonejs.github.io/audio/drum-samples/acoustic-kit/hihat.mp3",
+                },
+                release: 1,
+                onload: () => console.log('Drum sampler loaded.')
+            }).toDestination();
+
+            // Function to create a new instrument instance
+            const createInstrument = (type) => {
+                switch (type) {
+                    case 'Synth': return new Tone.PolySynth(Tone.Synth).toDestination();
+                    case 'Piano': return pianoSampler;
+                    case 'Drums': return drumSampler;
+                    case 'Violin': return violinSampler;
+                    default: return new Tone.PolySynth(Tone.Synth).toDestination();
+                }
+            };
 
             // === UI and State Functions ===
             const updateUI = () => {
-                playButton.textContent = isPlaying ? 'Stop' : 'Play';
+                playButton.textContent = isPlaying ? 'Stop All' : 'Play All';
                 playButton.classList.toggle('bg-red-500', isPlaying);
                 playButton.classList.toggle('hover:bg-red-600', isPlaying);
                 playButton.classList.toggle('focus:ring-red-500', isPlaying);
@@ -110,13 +163,133 @@
                 playButton.classList.toggle('focus:ring-indigo-500', !isPlaying);
             };
 
-            const toggleAdvancedMode = () => {
-                if (advancedModeToggle.checked) {
-                    simpleModeDiv.classList.add('hidden');
-                    advancedModeDiv.classList.remove('hidden');
+            // Function to add a new instrument track row to the DOM
+            const addTrack = () => {
+                const trackId = `track-${trackIndex++}`;
+                const trackDiv = document.createElement('div');
+                trackDiv.id = trackId;
+                trackDiv.className = 'flex flex-col md:flex-row items-stretch md:items-center space-y-4 md:space-y-0 md:space-x-4 p-4 bg-gray-700 rounded-xl shadow-inner';
+
+                const instrumentSelector = document.createElement('select');
+                instrumentSelector.className = 'flex-none w-full md:w-32 p-2 bg-gray-600 text-gray-200 rounded-lg border border-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors';
+                for (const type in instrumentTypes) {
+                    const option = document.createElement('option');
+                    option.value = type;
+                    option.textContent = type;
+                    instrumentSelector.appendChild(option);
+                }
+
+                const notesInput = document.createElement('textarea');
+                notesInput.className = 'flex-grow w-full p-2 text-sm bg-gray-600 text-gray-200 rounded-lg border border-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-colors resize-none';
+                notesInput.rows = 2;
+                notesInput.placeholder = 'e.g., C4/4n, Eb4/8n';
+                
+                // Set initial instrument to Violin and notes to default violin melody
+                instrumentSelector.value = 'Violin';
+                notesInput.value = defaultMelodies['Violin'];
+                instruments[trackId] = createInstrument(instrumentSelector.value);
+
+                // Add change listener to update notes based on instrument selection
+                instrumentSelector.addEventListener('change', (e) => {
+                    const selectedType = e.target.value;
+                    instruments[trackId] = createInstrument(selectedType);
+                    notesInput.value = defaultMelodies[selectedType];
+                });
+
+                const controlsDiv = document.createElement('div');
+                controlsDiv.className = 'flex-none flex justify-end space-x-2';
+
+                const soloButton = document.createElement('button');
+                soloButton.textContent = 'Solo';
+                soloButton.className = 'px-4 py-2 rounded-lg font-bold text-sm transition-colors bg-orange-500 hover:bg-orange-600 text-white';
+                soloButton.onclick = () => toggleSolo(trackId);
+
+                const muteButton = document.createElement('button');
+                muteButton.textContent = 'Mute';
+                muteButton.className = 'px-4 py-2 rounded-lg font-bold text-sm transition-colors bg-red-500 hover:bg-red-600 text-white';
+                muteButton.onclick = () => toggleMute(trackId);
+
+                controlsDiv.appendChild(soloButton);
+                controlsDiv.appendChild(muteButton);
+
+                trackDiv.appendChild(instrumentSelector);
+                trackDiv.appendChild(notesInput);
+                trackDiv.appendChild(controlsDiv);
+
+                tracksContainer.appendChild(trackDiv);
+            };
+
+            const toggleMute = (trackId) => {
+                const instrument = instruments[trackId];
+                const trackDiv = document.getElementById(trackId);
+                const muteButton = trackDiv.querySelector('button.bg-red-500');
+
+                if (instrument.volume.value === -Infinity) {
+                    instrument.volume.value = 0; // Unmute
+                    muteButton.textContent = 'Mute';
+                    muteButton.classList.remove('bg-gray-400');
+                    muteButton.classList.add('bg-red-500');
                 } else {
-                    simpleModeDiv.classList.remove('hidden');
-                    advancedModeDiv.classList.add('hidden');
+                    instrument.volume.value = -Infinity; // Mute
+                    muteButton.textContent = 'Unmute';
+                    muteButton.classList.remove('bg-red-500');
+                    muteButton.classList.add('bg-gray-400');
+                }
+            };
+
+            const toggleSolo = (soloTrackId) => {
+                const tracks = tracksContainer.children;
+                let isSoloing = false;
+                
+                // Check if any track is currently soloed
+                for (let i = 0; i < tracks.length; i++) {
+                    const track = tracks[i];
+                    const soloButton = track.querySelector('button.bg-orange-500');
+                    if (soloButton.classList.contains('bg-yellow-500')) {
+                        isSoloing = true;
+                        break;
+                    }
+                }
+
+                if (isSoloing) {
+                    // If already soloing, turn off solo on all tracks
+                    for (let i = 0; i < tracks.length; i++) {
+                        const track = tracks[i];
+                        const trackId = track.id;
+                        const soloButton = track.querySelector('button.bg-orange-500');
+                        const muteButton = track.querySelector('button.bg-red-500');
+
+                        instruments[trackId].volume.value = 0; // Unmute all
+                        soloButton.classList.remove('bg-yellow-500');
+                        soloButton.textContent = 'Solo';
+                        muteButton.textContent = 'Mute';
+                        muteButton.classList.remove('bg-gray-400');
+                        muteButton.classList.add('bg-red-500');
+                    }
+                } else {
+                    // Solo the selected track, mute all others
+                    for (let i = 0; i < tracks.length; i++) {
+                        const track = tracks[i];
+                        const trackId = track.id;
+                        const soloButton = track.querySelector('button.bg-orange-500');
+                        const muteButton = track.querySelector('button.bg-red-500');
+
+                        if (trackId === soloTrackId) {
+                            instruments[trackId].volume.value = 0; // Ensure solo track is audible
+                            soloButton.classList.add('bg-yellow-500');
+                            soloButton.textContent = 'Soloed';
+                            muteButton.textContent = 'Mute';
+                            muteButton.classList.remove('bg-gray-400');
+                            muteButton.classList.add('bg-red-500');
+                        } else {
+                            instruments[trackId].volume.value = -Infinity; // Mute all other tracks
+                            soloButton.classList.remove('bg-yellow-500');
+                            soloButton.textContent = 'Solo';
+                            muteButton.textContent = 'Muted';
+                            muteButton.classList.remove('bg-red-500');
+                            muteButton.classList.add('bg-gray-400');
+                        }
+                    }
                 }
             };
 
@@ -143,49 +316,49 @@
                     Tone.Transport.stop();
                     Tone.Transport.cancel();
 
-                    let noteStrings;
-                    let currentTime = 0;
-
-                    // Logic for simple mode
-                    if (!advancedModeToggle.checked) {
-                        Tone.Transport.bpm.value = 120; // Fixed tempo for simple mode
-                        noteStrings = notesInputSimple.value.split(',').map(note => note.trim());
-                        const defaultDuration = '4n';
-
-                        noteStrings.forEach((note) => {
-                            if (note) {
-                                Tone.Transport.scheduleOnce(time => {
-                                    synth.triggerAttackRelease(note, defaultDuration, time);
-                                }, currentTime);
-                                currentTime += Tone.Time(defaultDuration).toSeconds();
-                            }
-                        });
+                    Tone.Transport.bpm.value = parseInt(tempoInput.value, 10);
+                    let longestTrackDuration = 0;
+                    
+                    const tracks = tracksContainer.children;
+                    if (tracks.length === 0) {
+                        messageDisplay.textContent = 'Add a track to play!';
+                        isPlaying = false;
+                        updateUI();
+                        return;
                     }
-                    // Logic for advanced mode
-                    else {
-                        Tone.Transport.bpm.value = parseInt(tempoInput.value, 10);
-                        noteStrings = notesInputAdvanced.value.split(',').map(note => note.trim());
-                        
-                        noteStrings.forEach((noteString) => {
+
+                    // Process each track
+                    for (const track of tracks) {
+                        const trackId = track.id;
+                        const notesInput = track.querySelector('textarea');
+                        const notes = notesInput.value.split(',').map(note => note.trim());
+                        const instrument = instruments[trackId];
+                        let currentTime = 0;
+
+                        notes.forEach((noteString) => {
                             if (noteString) {
                                 const parts = noteString.split('/');
                                 const note = parts[0];
-                                const duration = parts[1] || '4n'; // Default to a quarter note if not specified
+                                const duration = parts[1] || '4n';
                                 
                                 Tone.Transport.scheduleOnce(time => {
-                                    synth.triggerAttackRelease(note, duration, time);
+                                    instrument.triggerAttackRelease(note, duration, time);
                                 }, currentTime);
                                 
                                 currentTime += Tone.Time(duration).toSeconds();
                             }
                         });
+
+                        if (currentTime > longestTrackDuration) {
+                            longestTrackDuration = currentTime;
+                        }
                     }
 
                     Tone.Transport.scheduleOnce(() => {
                         isPlaying = false;
                         messageDisplay.textContent = 'Playback finished.';
                         updateUI();
-                    }, currentTime);
+                    }, longestTrackDuration);
 
                     Tone.Transport.start();
 
@@ -199,11 +372,10 @@
             
             // Attach event listeners
             playButton.addEventListener('click', handlePlay);
-            advancedModeToggle.addEventListener('change', toggleAdvancedMode);
+            addTrackButton.addEventListener('click', addTrack);
 
             // Initial UI setup
-            advancedModeToggle.checked = true; // Set advanced mode on by default
-            toggleAdvancedMode(); // Set the initial state of the UI
+            addTrack(); // Add one track by default on page load
             updateUI();
         });
     </script>
